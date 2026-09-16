@@ -84,7 +84,7 @@ Both commands generate the native project on first run, build it, install it on 
 
 ### 5. Search for publications
 
-On the search screen, enter the **merchant ID** provided by Flipp, then either a store code or a postal code + country. Merchant IDs identify your retailer in Flipp's platform and are assigned by Flipp during onboarding; store codes are your own store identifiers as configured with Flipp.
+On the search screen, enter the **merchant ID** provided by Flipp, then either a store code or a postal code + country. Merchant IDs identify your retailer in Flipp's platform and are assigned by Flipp during onboarding (_you are required to use the merchant ID provided by Flipp_); store codes are your own store identifiers as configured with Flipp.
 
 ## Project Layout
 
