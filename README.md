@@ -182,7 +182,7 @@ Pick a render type from the publication's `renderingTypes` and mount `FlippPubli
   onError={({ error }) => showError(error.code)}
   onOfferPress={({ offer }) => openItemDetails(offer)}
   onExternalLinkPress={({ url }) => {
-    /* validate scheme, then open */
+    /* open the link */
   }}
 />
 ```
@@ -273,7 +273,7 @@ Changing any of `publicationId`, `publicationInfo`, `renderType`, `language`, or
 | `onOfferLongPress`      | `{ offer?: Offer }`                                     | The user long-pressed an offer (requires `longPressDurationMs`).                                                                    |
 | `onOfferPressError`     | `{ error: SdkError; longPress: boolean }`               | The renderer could not load the pressed offer's details. Not terminal; the publication stays interactive.                           |
 | `onPromotionPress`      | `{ promotion: Promotion }`                              | The user tapped a promotion (a non-offer item such as a banner).                                                                    |
-| `onExternalLinkPress`   | `{ url: string }`                                       | The user tapped a take-to-merchant link. The SDK does not open it. Validate the scheme before passing it to `Linking.openURL`.      |
+| `onExternalLinkPress`   | `{ url: string }`                                       | The user tapped a take-to-merchant link. The SDK does not open it.                                                                  |
 | `onOfferImpression`     | `{ globalIds: string[] }`                               | Offers that became at least 50% visible.                                                                                            |
 | `onPromotionImpression` | `{ globalIds: string[] }`                               | Promotions that became at least 50% visible.                                                                                        |
 | `onEngagedVisit`        | none                                                    | The visit counts as engaged: the user interacted, or the publication was visible for six seconds. Fires once per rendering session. |

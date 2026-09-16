@@ -24,12 +24,11 @@ export function PublicationCard({
   const imageUrl =
     publication.details?.imageUrl ?? publication.details?.backgroundImageUrl;
   const validity = formatValidity(publication.dates);
-  // Curator may omit renderingTypes; treat that as "try anything".
-  const supported =
-    publication.renderingTypes.length > 0 ? publication.renderingTypes : null;
+  // An empty renderingTypes list is an error state: show no render buttons.
+  const supported = publication.renderingTypes;
   const renderTypes: RenderType[] = [
     ...CARD_RENDER_TYPES,
-    ...(supported?.includes('sfml_horizontal')
+    ...(supported.includes('sfml_horizontal')
       ? ['sfml_horizontal' as const]
       : []),
   ];
@@ -77,29 +76,35 @@ export function PublicationCard({
         </View>
       </View>
 
-      <View style={styles.footer}>
-        {renderTypes.map((renderType, index) => {
-          const enabled = supported === null || supported.includes(renderType);
-          return (
-            <Pressable
-              key={renderType}
-              accessibilityRole="button"
-              accessibilityLabel={`Open as ${RENDER_TYPE_LABELS[renderType]}`}
-              accessibilityState={{ disabled: !enabled }}
-              disabled={!enabled}
-              onPress={() => onOpen(publication, renderType)}
-              style={[styles.action, index > 0 && styles.actionDivider]}
-            >
-              <Text
-                numberOfLines={1}
-                style={[styles.actionText, !enabled && styles.actionDisabled]}
+      {supported.length === 0 ? (
+        <View style={styles.footer}>
+          <Text style={styles.noRenderTypes}>No supported render types</Text>
+        </View>
+      ) : (
+        <View style={styles.footer}>
+          {renderTypes.map((renderType, index) => {
+            const enabled = supported.includes(renderType);
+            return (
+              <Pressable
+                key={renderType}
+                accessibilityRole="button"
+                accessibilityLabel={`Open as ${RENDER_TYPE_LABELS[renderType]}`}
+                accessibilityState={{ disabled: !enabled }}
+                disabled={!enabled}
+                onPress={() => onOpen(publication, renderType)}
+                style={[styles.action, index > 0 && styles.actionDivider]}
               >
-                {RENDER_TYPE_LABELS[renderType]}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
+                <Text
+                  numberOfLines={1}
+                  style={[styles.actionText, !enabled && styles.actionDisabled]}
+                >
+                  {RENDER_TYPE_LABELS[renderType]}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      )}
     </View>
   );
 }
@@ -143,4 +148,13 @@ const styles = StyleSheet.create({
   actionDivider: { borderLeftWidth: 1, borderLeftColor: colors.divider },
   actionText: { fontSize: 15, fontWeight: '700', color: colors.primary },
   actionDisabled: { color: colors.border },
+  noRenderTypes: {
+    flex: 1,
+    minHeight: 48,
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    paddingVertical: spacing.md,
+    fontSize: 13,
+    color: colors.danger,
+  },
 });
